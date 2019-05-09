@@ -1,5 +1,6 @@
 package form;
 
+import detection.DetectionSpecialChar;
 import jdbc.mySQL;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class Form extends JFrame {
 
     private CardLayout cardLayout = new CardLayout();
 
-    private  Form() {
+    private Form() {
         clMain.setLayout(new CardLayout(0, 0));
 
         createSignUp();
@@ -65,41 +66,52 @@ public class Form extends JFrame {
         signInToUp.addActionListener(e ->
                 cardLayout.show(clMain, "SignUp"));
 
-        buttonAddUser.addActionListener(e -> {
-            try {
-                if (signUpName.getText().equals("") || new String(signUpPassword.getPassword()).equals("") || my.isUser(signUpName.getText())) {
-                    JOptionPane.showMessageDialog(clMain, "Repeat");
-                } else {
-                    //my.addUser(signUpName.getText(), new String(signUpPassword.getPassword()));
+        buttonAddUser.addActionListener(e ->
+                addFunction(my));
 
-                    cardLayout.show(clMain, "SignIn");
+        buttonEnter.addActionListener(e ->
+                getAccess(my));
+    }
+
+    DetectionSpecialChar detectionSpecialChar = new DetectionSpecialChar();
+
+    private void getAccess(mySQL my) {
+        String tempName = signInName.getText();
+        String tempPassword = new String(signInPassword.getPassword());
+        if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword)) {
+            JOptionPane.showMessageDialog(clMain, "Repeat");
+        } else {
+            try {
+                if (!my.isUser(tempName)) {
+                    JOptionPane.showMessageDialog(clMain, "Нет такого");
+                } else {
+                    String pass = null;
+                    pass = my.getUser(tempName);
+                    if (pass.equals(tempPassword)) {
+                        cardLayout.show(clMain, "Access");
+                    } else {
+                        JOptionPane.showMessageDialog(panelMain, "Нет такого");
+                    }
                 }
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-        });
+        }
+    }
 
-        buttonEnter.addActionListener(e -> {
-            if (signInName.getText().equals("") || new String(signInPassword.getPassword()).equals("")) {
+    private void addFunction(mySQL my) {
+        try {
+            String tempName = signUpName.getText();
+            String tempPassword = new String(signUpPassword.getPassword());
+            if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword) || my.isUser(tempName)) {
                 JOptionPane.showMessageDialog(clMain, "Repeat");
             } else {
-                try {
-                    if (!my.isUser(signInName.getText())) {
-                        JOptionPane.showMessageDialog(clMain, "Нет такого");
-                    } else {
-                        String pass = null;
-                        pass = my.getUser(signInName.getText());
-                        if (pass.equals(new String(signInPassword.getPassword()))) {
-                            cardLayout.show(clMain, "Access");
-                        } else {
-                            JOptionPane.showMessageDialog(panelMain, "Нет такого");
-                        }
-                    }
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+                my.addUser(tempName, tempPassword);
+                cardLayout.show(clMain, "SignIn");
             }
-        });
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void createSignUp() {

@@ -45,7 +45,7 @@ class PanelSignUp {
 
         gridBagLayout.setConstraints(signUpName, c);
         signUp.add(signUpName);
-        JLabel signUpLabelName = new JLabel("Username");
+        JLabel signUpLabelName = new JLabel("Email");
 
         c.gridx = 1;
         c.gridy = 1;
