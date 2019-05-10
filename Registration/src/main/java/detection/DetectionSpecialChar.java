@@ -11,8 +11,9 @@ public class DetectionSpecialChar {
             return false;
         }
         Pattern p = Pattern.compile("^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(^[a-zA-Z0-9@\\$=!:.#%]+$)");
+        //Pattern p = Pattern.compile("^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@])\\S{6,12}$");
         Matcher m = p.matcher(s);
-        return !m.find();
+        return m.find();
     }
 
     public Boolean isMail(String s) {
@@ -22,6 +23,6 @@ public class DetectionSpecialChar {
         }
         Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
         Matcher m = p.matcher(s);
-        return !m.find();
+        return m.find();
     }
 }

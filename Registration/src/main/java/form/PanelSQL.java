@@ -3,25 +3,39 @@ package form;
 import javax.swing.*;
 import java.awt.*;
 
-class PanelMain {
-    void createPanel(JPanel SignIn, JButton buttonSignIn, JButton buttonSignUp) {
+public class PanelSQL {
+    private JPasswordField sqlPassword;
+
+    void createPanel(JPanel SqlPanel, JButton buttonSignIn) {
 
         GridBagConstraints c = new GridBagConstraints();
         GridBagLayout gridBagLayout = new GridBagLayout();
-        SignIn.setLayout(gridBagLayout);
+        SqlPanel.setLayout(gridBagLayout);
 
 // -----------------------
 // Label
 // -----------------------
-        JLabel jLabel = new JLabel("Sign In | Sign Up", SwingConstants.CENTER);
-        c.gridwidth = 2;
+        JLabel jLabel = new JLabel("Password freesqldatabase", SwingConstants.CENTER);
+        //c.gridwidth = 2;
 
         c.insets = new Insets(10, 10, 10, 10);
         jLabel.setBackground(new Color(-12508404));
         Font panelMainFont = new Font("Algerian", Font.BOLD | Font.ITALIC, 30);
         jLabel.setFont(panelMainFont);
         jLabel.setForeground(new Color(-12032069));
-        SignIn.add(jLabel, c);
+        SqlPanel.add(jLabel, c);
+
+        // -----------------------
+// "Password"
+// -----------------------
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        sqlPassword = new JPasswordField(15);
+
+        gridBagLayout.setConstraints(sqlPassword, c);
+        SqlPanel.add(sqlPassword);
+
 
 // -----------------------
 // Sign In
@@ -40,19 +54,11 @@ class PanelMain {
         c.gridy = 1;
 
         gridBagLayout.setConstraints(buttonSignIn, c);
-        SignIn.add(buttonSignIn);
+        SqlPanel.add(buttonSignIn);
 
-// -----------------------
-// Sign Up
-// -----------------------
-        buttonSignUp.setFont(buttonFont);
-        buttonSignUp.setForeground(buttonColor);
-        buttonSignUp.setBackground(buttonBackgroundColor);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 1;
+    }
 
-        gridBagLayout.setConstraints(buttonSignUp, c);
-        SignIn.add(buttonSignUp);
+    public JPasswordField getSqlPassword() {
+        return sqlPassword;
     }
 }

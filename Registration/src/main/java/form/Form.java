@@ -22,6 +22,9 @@ public class Form extends JFrame {
     private JPasswordField signInPassword;
     private JButton buttonEnter;
     private JPanel access;
+    private JPanel sqlPanel;
+    private JButton sign;
+    private JPasswordField sqlPassword;
 
     private JFrame jFrame = new JFrame("Application");
 
@@ -34,18 +37,21 @@ public class Form extends JFrame {
         createSignIn();
         createMain();
         createAccess();
+        createSql();
 
         mySQL my = new mySQL();
 
 
         clMain.setLayout(cardLayout);
 
+
         clMain.add(signUp, "SignUp");
         clMain.add(signIn, "SignIn");
         clMain.add(panelMain, "Form");
         clMain.add(access, "Access");
+        clMain.add(sqlPanel, "SQL");
 
-        cardLayout.show(clMain, "Form");
+        cardLayout.show(clMain, "SQL");
 
 
         jFrame.add(clMain);
@@ -53,6 +59,11 @@ public class Form extends JFrame {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.pack();
         jFrame.setVisible(true);
+
+        sign.addActionListener(e -> {
+            my.setUserPassword(new String(sqlPassword.getPassword()));
+            cardLayout.show(clMain, "Form");
+        });
 
         buttonSignIn.addActionListener(e ->
                 cardLayout.show(clMain, "SignIn"));
@@ -79,12 +90,8 @@ public class Form extends JFrame {
         String tempName = signInName.getText();
         String tempPassword = new String(signInPassword.getPassword());
         if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword)) {
-            JOptionPane.showMessageDialog(clMain, "Repeat");
-        } else {
             try {
-                if (!my.isUser(tempName)) {
-                    JOptionPane.showMessageDialog(clMain, "Нет такого");
-                } else {
+                if (my.isUser(tempName)) {
                     String pass = null;
                     pass = my.getUser(tempName);
                     if (pass.equals(tempPassword)) {
@@ -92,10 +99,15 @@ public class Form extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(panelMain, "Нет такого");
                     }
+                } else {
+                    JOptionPane.showMessageDialog(clMain, "Нет такого");
                 }
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
+
+        } else {
+            JOptionPane.showMessageDialog(clMain, "Repeat get");
         }
     }
 
@@ -103,11 +115,11 @@ public class Form extends JFrame {
         try {
             String tempName = signUpName.getText();
             String tempPassword = new String(signUpPassword.getPassword());
-            if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword) || my.isUser(tempName)) {
-                JOptionPane.showMessageDialog(clMain, "Repeat");
-            } else {
+            if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword) || !my.isUser(tempName)) {
                 my.addUser(tempName, tempPassword);
                 cardLayout.show(clMain, "SignIn");
+            } else {
+                JOptionPane.showMessageDialog(clMain, "Repeat add");
             }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -157,6 +169,20 @@ public class Form extends JFrame {
         buttonSignIn = new JButton("Sign In");
 
         new PanelMain().createPanel(panelMain, buttonSignIn, buttonSignUp);
+    }
+
+    private void createSql() {
+        sqlPanel = new JPanel();
+        sqlPanel.setBackground(Color.ORANGE);
+
+        sign = new JButton("Sign In");
+
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        sqlPanel.setLayout(gridBagLayout);
+        PanelSQL panelSQL = new PanelSQL();
+        panelSQL.createPanel(sqlPanel, sign);
+
+        sqlPassword = panelSQL.getSqlPassword();
     }
 
     private void createAccess() {

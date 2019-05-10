@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 class PanelAccess {
-
     void createPanel(JPanel access) {
 
         GridBagConstraints c = new GridBagConstraints();
