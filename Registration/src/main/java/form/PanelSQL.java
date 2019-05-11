@@ -2,63 +2,63 @@ package form;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
-public class PanelSQL {
+public class PanelSQL extends GeneralPanel {
     private JPasswordField sqlPassword;
+    private JButton sign;
 
-    void createPanel(JPanel SqlPanel, JButton buttonSignIn) {
+    PanelSQL(){
+        initComponents();
+    }
 
-        GridBagConstraints c = new GridBagConstraints();
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        SqlPanel.setLayout(gridBagLayout);
+    private void initComponents() {
 
 // -----------------------
 // Label
 // -----------------------
-        JLabel jLabel = new JLabel("Password freesqldatabase", SwingConstants.CENTER);
-        //c.gridwidth = 2;
+        labelAccess.setText("Password freesqldatabase");
 
-        c.insets = new Insets(10, 10, 10, 10);
-        jLabel.setBackground(new Color(-12508404));
-        Font panelMainFont = new Font("Algerian", Font.BOLD | Font.ITALIC, 30);
-        jLabel.setFont(panelMainFont);
-        jLabel.setForeground(new Color(-12032069));
-        SqlPanel.add(jLabel, c);
-
-        // -----------------------
+// -----------------------
 // "Password"
 // -----------------------
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         sqlPassword = new JPasswordField(15);
 
         gridBagLayout.setConstraints(sqlPassword, c);
-        SqlPanel.add(sqlPassword);
+        this.add(sqlPassword);
 
 
 // -----------------------
 // Sign In
 // -----------------------
+        sign = new JButton("Sign In");
         Font buttonFont = new Font("Arial", Font.BOLD | Font.ITALIC, 20);
         Color buttonColor = new Color(65280);
         Color buttonBackgroundColor = new Color(205);
-        buttonSignIn.setFont(buttonFont);
-        buttonSignIn.setForeground(buttonColor);
-        buttonSignIn.setBackground(buttonBackgroundColor);
+        sign.setFont(buttonFont);
+        sign.setForeground(buttonColor);
+        sign.addActionListener(this);
+        sign.setBackground(buttonBackgroundColor);
 
-        c.gridwidth = 1;
+
         c.ipadx = 32;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 1;
+        c.gridx = 0;
+        c.gridy = 2;
 
-        gridBagLayout.setConstraints(buttonSignIn, c);
-        SqlPanel.add(buttonSignIn);
+        gridBagLayout.setConstraints(sign, c);
+        this.add(sign);
 
+        sign.addActionListener(this::actionPerformed);
     }
 
-    public JPasswordField getSqlPassword() {
-        return sqlPassword;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        my.setUserPassword(new String(sqlPassword.getPassword()));
+        System.out.println(sqlPassword.getPassword());
+        cardLayout.show(clMain, "Form");
     }
 }

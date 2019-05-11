@@ -1,38 +1,30 @@
 package form;
 
+import detection.DetectionSpecialChar;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
-class PanelSignUp {
+
+class PanelSignUp extends GeneralPanel {
+
     private JTextField signUpName;
     private JPasswordField signUpPassword;
+    private JButton buttonAddUser;
 
-    JTextField getSignUpName() {
-        return signUpName;
+    public PanelSignUp(){
+        initComponents();
     }
 
-    JPasswordField getSignUpPassword() {
-        return signUpPassword;
-    }
-
-    void createPanel(JPanel signUp, JButton signUpToIn, JButton buttonAddUser) {
-
-        GridBagConstraints c = new GridBagConstraints();
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        signUp.setLayout(gridBagLayout);
+    private void initComponents() {
+        JButton signUpToIn = new JButton("Sign In");
+        buttonAddUser = new JButton("Add User");
 
 // -----------------------
 // Label
 // -----------------------
-
-        JLabel jLabel = new JLabel("Sign Up", SwingConstants.CENTER);
-        c.gridwidth = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(10, 10, 10, 10);
-        Font label1Font = new Font("Algerian", Font.BOLD | Font.ITALIC, 30);
-        jLabel.setFont(label1Font);
-        jLabel.setForeground(new Color(-12032069));
-        signUp.add(jLabel, c);
+        labelAccess.setText("Sign Up");
 // -----------------------
 // First name
 // -----------------------
@@ -44,7 +36,7 @@ class PanelSignUp {
         c.gridy = 1;
 
         gridBagLayout.setConstraints(signUpName, c);
-        signUp.add(signUpName);
+        this.add(signUpName);
         JLabel signUpLabelName = new JLabel("Email");
 
         c.gridx = 1;
@@ -52,7 +44,7 @@ class PanelSignUp {
         signUpLabelName.setFont(fontSignUp);
 
         gridBagLayout.setConstraints(signUpLabelName, c);
-        signUp.add(signUpLabelName);
+        this.add(signUpLabelName);
 
 // -----------------------
 // OK
@@ -69,7 +61,8 @@ class PanelSignUp {
         signUpToIn.setBackground(buttonBackgroundColor);
         signUpToIn.setForeground(buttonColor);
         gridBagLayout.setConstraints(signUpToIn, c);
-        signUp.add(signUpToIn);
+        signUpToIn.addActionListener(this::actionPerformed);
+        this.add(signUpToIn);
 
 // -----------------------
 // "Password"
@@ -80,7 +73,7 @@ class PanelSignUp {
         signUpPassword = new JPasswordField(15);
 
         gridBagLayout.setConstraints(signUpPassword, c);
-        signUp.add(signUpPassword);
+        this.add(signUpPassword);
 
         c.gridx = 1;
         c.gridy = 2;
@@ -89,7 +82,7 @@ class PanelSignUp {
         signUpLabelPassword.setFont(fontSignUp);
 
         gridBagLayout.setConstraints(signUpLabelPassword, c);
-        signUp.add(signUpLabelPassword);
+        this.add(signUpLabelPassword);
 
 // -----------------------
 // Cancel
@@ -100,8 +93,37 @@ class PanelSignUp {
         buttonAddUser.setFont(buttonFont);
         buttonAddUser.setForeground(buttonColor);
         buttonAddUser.setBackground(buttonBackgroundColor);
+        buttonAddUser.addActionListener(this::actionPerformed);
         gridBagLayout.setConstraints(buttonAddUser, c);
-        signUp.add(buttonAddUser);
+        this.add(buttonAddUser);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == buttonAddUser){
+            System.out.println("1");
+            addFunction();
+            //cardLayout.show(clMain, "SignIn");
+        } else {
+            System.out.println("2");
+            cardLayout.show(clMain, "SignIn");
+        }
+    }
+
+    private void addFunction() {
+        DetectionSpecialChar detectionSpecialChar = new DetectionSpecialChar();
+        try {
+            String tempName = signUpName.getText();
+            String tempPassword = new String(signUpPassword.getPassword());
+            if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword) || !my.isUser(tempName)) {
+                my.addUser(tempName, tempPassword);
+                cardLayout.show(clMain, "SignIn");
+            } else {
+                JOptionPane.showMessageDialog(clMain, "Repeat add");
+            }
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 }

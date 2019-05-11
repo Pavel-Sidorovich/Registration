@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class mySQL {
     private String userName;// = "root"; //"1"
-    private String userPassword;//= "1111";
+    private static String userPassword;//= "1111";
     private String connectionURL;// = "jdbc:mysql://localhost:3306/mymap?useUnicode=true&serverTimezone=UTC";//Важно юзать то, что после ?. Иначе будет ошибка.
 
     public mySQL() {
@@ -16,11 +16,11 @@ public class mySQL {
         connectionURL = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7291253";
     }
 
-    public mySQL(String userPassword) {
-        this.userName = "sql7291253";
-        this.userPassword = userPassword;
-        this.connectionURL = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7291253";
-    }
+//    public mySQL(String userPassword) {
+//        this.userName = "sql7291253";
+//        this.userPassword = userPassword;
+//        this.connectionURL = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7291253";
+//    }
 
     public void addUser(String email, String password) throws ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");

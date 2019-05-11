@@ -2,26 +2,24 @@ package form;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
-class PanelMain {
-    void createPanel(JPanel SignIn, JButton buttonSignIn, JButton buttonSignUp) {
+class PanelMain extends GeneralPanel {
 
-        GridBagConstraints c = new GridBagConstraints();
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        SignIn.setLayout(gridBagLayout);
+    private JButton buttonSignIn;
+
+    public PanelMain() {
+        initComponents();
+    }
+
+    private void initComponents() {
+        JButton buttonSignUp = new JButton("Sign Up");
+        buttonSignIn = new JButton("Sign In");
 
 // -----------------------
 // Label
 // -----------------------
-        JLabel jLabel = new JLabel("Sign In | Sign Up", SwingConstants.CENTER);
-        c.gridwidth = 2;
-
-        c.insets = new Insets(10, 10, 10, 10);
-        jLabel.setBackground(new Color(-12508404));
-        Font panelMainFont = new Font("Algerian", Font.BOLD | Font.ITALIC, 30);
-        jLabel.setFont(panelMainFont);
-        jLabel.setForeground(new Color(-12032069));
-        SignIn.add(jLabel, c);
+        labelAccess.setText("Sign In | Sign Up");
 
 // -----------------------
 // Sign In
@@ -32,6 +30,7 @@ class PanelMain {
         buttonSignIn.setFont(buttonFont);
         buttonSignIn.setForeground(buttonColor);
         buttonSignIn.setBackground(buttonBackgroundColor);
+        buttonSignIn.addActionListener(this);
 
         c.gridwidth = 1;
         c.ipadx = 32;
@@ -40,7 +39,7 @@ class PanelMain {
         c.gridy = 1;
 
         gridBagLayout.setConstraints(buttonSignIn, c);
-        SignIn.add(buttonSignIn);
+        this.add(buttonSignIn);
 
 // -----------------------
 // Sign Up
@@ -48,11 +47,21 @@ class PanelMain {
         buttonSignUp.setFont(buttonFont);
         buttonSignUp.setForeground(buttonColor);
         buttonSignUp.setBackground(buttonBackgroundColor);
+        buttonSignUp.addActionListener(this);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
 
         gridBagLayout.setConstraints(buttonSignUp, c);
-        SignIn.add(buttonSignUp);
+        this.add(buttonSignUp);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buttonSignIn) {
+            cardLayout.show(clMain, "SignIn");
+        } else {
+            cardLayout.show(clMain, "SignUp");
+        }
     }
 }
