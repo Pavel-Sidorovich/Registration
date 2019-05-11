@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 
 public class PanelSQL extends GeneralPanel {
     private JPasswordField sqlPassword;
-    private JButton sign;
 
     PanelSQL(){
         initComponents();
@@ -18,7 +17,6 @@ public class PanelSQL extends GeneralPanel {
 // Label
 // -----------------------
         labelAccess.setText("Password freesqldatabase");
-
 // -----------------------
 // "Password"
 // -----------------------
@@ -29,12 +27,10 @@ public class PanelSQL extends GeneralPanel {
 
         gridBagLayout.setConstraints(sqlPassword, c);
         this.add(sqlPassword);
-
-
 // -----------------------
 // Sign In
 // -----------------------
-        sign = new JButton("Sign In");
+        JButton sign = new JButton("Sign In");
         Font buttonFont = new Font("Arial", Font.BOLD | Font.ITALIC, 20);
         Color buttonColor = new Color(65280);
         Color buttonBackgroundColor = new Color(205);
@@ -42,7 +38,6 @@ public class PanelSQL extends GeneralPanel {
         sign.setForeground(buttonColor);
         sign.addActionListener(this);
         sign.setBackground(buttonBackgroundColor);
-
 
         c.ipadx = 32;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -58,7 +53,6 @@ public class PanelSQL extends GeneralPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         my.setUserPassword(new String(sqlPassword.getPassword()));
-        System.out.println(sqlPassword.getPassword());
         cardLayout.show(clMain, "Form");
     }
 }

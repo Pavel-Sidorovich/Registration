@@ -20,7 +20,6 @@ class PanelMain extends GeneralPanel {
 // Label
 // -----------------------
         labelAccess.setText("Sign In | Sign Up");
-
 // -----------------------
 // Sign In
 // -----------------------

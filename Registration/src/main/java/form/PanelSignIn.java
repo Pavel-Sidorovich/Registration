@@ -112,7 +112,7 @@ class PanelSignIn extends GeneralPanel {
         DetectionSpecialChar detectionSpecialChar = new DetectionSpecialChar();
         String tempName = signInName.getText();
         String tempPassword = new String(signInPassword.getPassword());
-        if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword)) {
+        if (detectionSpecialChar.isMail(tempName) && detectionSpecialChar.isPassword(tempPassword)) {
             try {
                 if (my.isUser(tempName)) {
                     String pass = null;

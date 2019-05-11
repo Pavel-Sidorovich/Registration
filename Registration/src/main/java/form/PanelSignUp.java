@@ -116,7 +116,7 @@ class PanelSignUp extends GeneralPanel {
         try {
             String tempName = signUpName.getText();
             String tempPassword = new String(signUpPassword.getPassword());
-            if (detectionSpecialChar.isMail(tempName) || detectionSpecialChar.isPassword(tempPassword) || !my.isUser(tempName)) {
+            if (detectionSpecialChar.isMail(tempName) && detectionSpecialChar.isPassword(tempPassword) && !my.isUser(tempName)) {
                 my.addUser(tempName, tempPassword);
                 cardLayout.show(clMain, "SignIn");
             } else {
